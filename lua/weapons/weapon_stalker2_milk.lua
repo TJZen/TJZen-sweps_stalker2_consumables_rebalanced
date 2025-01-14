@@ -82,19 +82,19 @@ function SWEP:InitializeConsumable()
 	local SequenceDuration = self:SequenceDuration()
 
     timer.Simple(SequenceDuration * 0.75, function() -- Call item effects.
-        if IsValid(owner) then
+        if IsValid(owner) and owner:Alive() then
 			self:Heal(owner)
         end
     end)
 
     timer.Simple(SequenceDuration, function() -- End of logic, strip weapon.
-        if IsValid(owner) then
+        if IsValid(owner) and owner:Alive() then
             self.Consuming = 0
 			
 			if owner:GetAmmoCount(self.Primary.Ammo) == 0 then 	
 				owner:StripWeapon(ID_WEAPON)
 			end
-			owner:SelectWeapon(owner:GetPreviousWeapon())
+			if SERVER then owner:SelectWeapon(owner:GetPreviousWeapon()) end
         end
     end)
 end
@@ -102,7 +102,7 @@ end
 function SWEP:Heal(owner)
 	if IsValid(owner) and owner:GetActiveWeapon():GetClass() == ID_WEAPON then
 	
-		if INI_SEF == true then
+		if INI_SEF == true and SERVER then
 			owner:ApplyEffect("Healing", 5, 1, 0.25)
 		end
 		
@@ -112,7 +112,6 @@ function SWEP:Heal(owner)
 		
 		if INI_VIVO == true then
 		end
-		
 	end
 	owner:EmitSound("Stalker2.Drink")
 	owner:RemoveAmmo(1, ID_PRIMARYAMMO) 

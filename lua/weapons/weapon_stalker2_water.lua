@@ -8,8 +8,6 @@ SWEP.PrintName = "Water"
 SWEP.Author = "Craft_Pig"
 SWEP.Purpose = 
 [[
-Heals up to 30HP
-Cures Bleeding
 ]]
 SWEP.Category = "S.T.A.L.K.E.R. 2"
 -- SWEP.Category1 = "EFT"
@@ -24,26 +22,19 @@ SWEP.DrawCrosshair = false
 SWEP.Spawnable = true
 SWEP.Slot = 5
 SWEP.SlotPos = 7
-SWEP.DrawAmmo = true
-SWEP.AutoSwitchFrom = false
 
 SWEP.SwayScale = 0.15
 SWEP.BobScale = 0.75
 
+SWEP.Secondary.Ammo = "none"
 SWEP.Primary.Ammo = "water"
 SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = 1
 SWEP.Primary.Automatic = false
 
-SWEP.Secondary.Ammo = "none"
-SWEP.Secondary.ClipSize = -1
-SWEP.Secondary.DefaultClip = -1
-SWEP.Secondary.Automatic = false
-
-SWEP.FrameHeal = 55
-
 local INI_SEF = false
 local INI_VIVO = false
+local INI_AUX = false
 local ID_WEAPON = "weapon_stalker2_water"
 local ID_PRIMARYAMMO = "water"
 
@@ -71,88 +62,72 @@ function SWEP:Deploy()
 	
 	self:SendWeaponAnim(ACT_VM_IDLE)
 	
-	self.IniAnim = 0
-	self.FrameTimes = 0
+	-- if owner:GetAmmoCount(self.Primary.Ammo) == 0 then -- Strip Fallback 	
+		-- owner:StripWeapon(ID_WEAPON)
+		-- owner:SelectWeapon(owner:GetPreviousWeapon())
+	-- end
 	
-	if SERVER then
-		if self.IniAnim == 0 then self:PrimaryAttack() end
-		
-		if owner:GetAmmoCount(self.Primary.Ammo) == 0 then 	
-				owner:StripWeapon(ID_WEAPON)
-				owner:SelectWeapon(owner:GetPreviousWeapon())
-		end
-	end
+	---------- Start Consumable ----------
+	self.Consuming = 1
+	self:InitializeConsumable()
+	--------------------------------------
 	return true
 end
 
+function SWEP:InitializeConsumable()
+    local owner = self:GetOwner()
+    if not IsValid(owner) or not owner:IsPlayer() then return end
+
+    self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
+	local SequenceDuration = self:SequenceDuration()
+
+    timer.Simple(SequenceDuration * 0.7, function() -- Call item effects.
+        if IsValid(owner) and owner:Alive() then
+			self:Heal(owner)
+        end
+    end)
+
+    timer.Simple(SequenceDuration, function() -- End of logic, strip weapon.
+        if IsValid(owner) and owner:Alive() then
+            self.Consuming = 0
+			
+			if owner:GetAmmoCount(self.Primary.Ammo) == 0 then 	
+				owner:StripWeapon(ID_WEAPON)
+			end
+			if SERVER then owner:SelectWeapon(owner:GetPreviousWeapon()) end
+        end
+    end)
+end
+
 function SWEP:Heal(owner)
-	local owner = self:GetOwner() 
-	if IsValid(owner) and SERVER and owner:GetActiveWeapon():GetClass() == ID_WEAPON then
-		if INI_SEF == true then
-			-- owner:ApplyEffect("Haste", 10, 25)
+	if IsValid(owner) and owner:GetActiveWeapon():GetClass() == ID_WEAPON then
+	
+		if INI_SEF == true and SERVER then
+			-- owner:ApplyEffect("Healing", 5, 1, 0.25)
 		end
+		
 		if INI_AUX == true then
 			AUXPOW:SetPower(owner, math.min(AUXPOW:GetPower(owner) + 0.5, 1));
 		end
+		
+		if INI_VIVO == true then
+		end
 	end
 	owner:EmitSound("Stalker2.Drink")
-	owner:SetAnimation(PLAYER_ATTACK1)
-	owner:RemoveAmmo(1, ID_PRIMARYAMMO)    
+	owner:RemoveAmmo(1, ID_PRIMARYAMMO) 
 end
 
 function SWEP:PrimaryAttack()
-    local owner = self.Owner
-	if self.IniAnim == 1 then return end
-	
-	self.IniAnim = 1
-	
-	-- self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
-	
-	local vm = owner:GetViewModel()
-	vm:SetSequence(vm:LookupSequence("use"))  -- Play the sequence
-	self.IdleTimer = CurTime() + self.Owner:GetViewModel():SequenceDuration()
 end
 
 function SWEP:SecondaryAttack()
-	-- local owner = self:GetOwner() 
-	-- owner:SetNWFloat("SaturationEffectStart", CurTime())
-    -- owner:SetNWFloat("SaturationEffectDuration", 1.5)
-    -- owner:SetNWFloat("SaturationEffectStrength", 0.25)
 end
 
 function SWEP:Think()
-	local owner = self.Owner
-	local vm = owner:GetViewModel()
-	
-	if SERVER then
-		if vm:LookupSequence("use") then
-			-- self:GetOwner():ChatPrint(self.FrameTimes)
-			self.FrameTimes = self.FrameTimes + 1
-			if self.FrameTimes == self.FrameHeal * 2 then
-				self:Heal(owner)
-			end
-		end
-	end
-	
-	if self.IniAnim == 1 and self.IdleTimer <= CurTime() then
-		self:HolsterPrevious(owner)
-	end
-end
-
-function SWEP:HolsterPrevious(owner)
-	local owner = self:GetOwner() 
-	if SERVER then
-		if owner:GetAmmoCount(self.Primary.Ammo) == 0 then 
-			owner:StripWeapon(ID_WEAPON)
-			owner:SelectWeapon(owner:GetPreviousWeapon())
-		else
-			owner:SelectWeapon(owner:GetPreviousWeapon())
-		end
-	end
 end
 
 function SWEP:Holster()
-	if self.Owner:GetAmmoCount(self.Primary.Ammo) == 0 then return end
+	if self.Consuming == 1 then return end
 	return true
 end
 
@@ -169,30 +144,6 @@ function SWEP:CalcView( ply, pos, ang, fov )
 	self.vmcamera = self.vmcamera or Angle(0, 0, 0)  
     return pos, ang + self.vmcamera, fov
 end
-
--- if CLIENT then
-    -- hook.Add("RenderScreenspaceEffects", "SaturationBoostEffect", function()
-        -- local ply = LocalPlayer()
-        -- local startTime = ply:GetNWFloat("SaturationEffectStart", 0)
-        -- local duration = ply:GetNWFloat("SaturationEffectDuration", 0)
-        -- local strength = ply:GetNWFloat("SaturationEffectStrength", 0)
-
-        -- if CurTime() < startTime + duration then
-            -- local elapsed = CurTime() - startTime
-            -- local fadeOut = math.Clamp(1 - (elapsed / duration), 0, 1)
-            -- local saturation = strength * fadeOut
-
-            -- DrawColorModify({
-                -- ["$pp_colour_contrast"] = 1 + saturation,
-                -- ["$pp_colour_colour"] = 1 + saturation,
-                -- ["$pp_colour_brightness"] = 0,
-                -- ["$pp_colour_mulr"] = 0,
-                -- ["$pp_colour_mulg"] = 0,
-                -- ["$pp_colour_mulb"] = 0
-            -- })
-        -- end
-    -- end)
--- end
 
 if CLIENT then -- Worldmodel offset
 	local WorldModel = ClientsideModel(SWEP.WorldModel)
