@@ -62,10 +62,10 @@ function SWEP:Deploy()
 	
 	self:SendWeaponAnim(ACT_VM_IDLE)
 	
-	-- if owner:GetAmmoCount(self.Primary.Ammo) == 0 then -- Strip Fallback 	
-		-- owner:StripWeapon(ID_WEAPON)
-		-- owner:SelectWeapon(owner:GetPreviousWeapon())
-	-- end
+	if owner:GetAmmoCount(self.Primary.Ammo) == 0 then -- Strip Fallback 	
+		owner:StripWeapon(ID_WEAPON)
+		owner:SelectWeapon(owner:GetPreviousWeapon())
+	end
 	
 	---------- Start Consumable ----------
 	self.Consuming = 1

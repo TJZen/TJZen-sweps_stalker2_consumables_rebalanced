@@ -1,8 +1,8 @@
 "VertexLitGeneric"
 {
-    "$basetexture" "models/weapons/sweps/stalker2/knife/MI_gra_knife_rgb"
-    "$bumpmap" "models/weapons/sweps/stalker2/knife/MI_gra_knife_n"
-    "$phongexponenttexture" "models/weapons/sweps/stalker2/knife/MI_gra_knife_e"
+    "$basetexture" "models/weapons/sweps/stalker2/medkit/MI_cns_injector_general_rgb"
+    "$bumpmap" "models/weapons/sweps/stalker2/medkit/MI_cns_injector_general_n"
+    "$phongexponenttexture" "models/weapons/sweps/stalker2/medkit/MI_cns_injector_general_e"
 
     //----------------------------------------------------------------------------------------------
     "$color2" "[.0 .0 .0]"                                     //do not touch this

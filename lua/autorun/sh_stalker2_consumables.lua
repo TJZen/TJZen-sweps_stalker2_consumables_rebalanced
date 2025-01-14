@@ -66,6 +66,16 @@ name = "vodka",
 game.AddAmmoType( {
 name = "milk",
 } )
+game.AddAmmoType( {
+name = "medkit_general",
+} )
+game.AddAmmoType( {
+name = "medkit_army",
+} )
+game.AddAmmoType( {
+name = "medkit_scientific",
+} )
+
 
 --[[
 -----------------------------------------------------------------------------------------------------
@@ -219,5 +229,38 @@ sound.Add( {
         "weapons/stalker2/milk/SFX_Milk_Knife_1.ogg",
 		"weapons/stalker2/milk/SFX_Milk_Knife_2.ogg",
 		"weapons/stalker2/milk/SFX_Milk_Knife_3.ogg",
+    }
+} )
+----------------------------------------------------------------------------------------------------- Medkit
+sound.Add( {
+    name = "Stalker2.Healing",
+    channel = CHAN_WEAPON,
+    volume = 1,
+    level = 65,
+    pitch = {95, 100},
+    sound = {
+        "weapons/stalker2/medkit/SFX_Medkit_Healing_1.ogg",
+		"weapons/stalker2/medkit/SFX_Medkit_Healing_2.ogg",
+		"weapons/stalker2/medkit/SFX_Medkit_Healing_3.ogg",
+    }
+} )
+sound.Add( {
+    name = "Stalker2.Inject",
+    channel = CHAN_BODY,
+    volume = 1,
+    level = 65,
+    pitch = {95, 100},
+    sound = {
+        "weapons/stalker2/medkit/SFX_Medkit_Inject_1.ogg",
+    }
+} )
+sound.Add( {
+    name = "Stalker2.Cap",
+    channel = CHAN_WEAPON,
+    volume = 1,
+    level = 65,
+    pitch = {95, 100},
+    sound = {
+        "weapons/stalker2/medkit/SFX_Medkit_Cap_1.ogg",
     }
 } )

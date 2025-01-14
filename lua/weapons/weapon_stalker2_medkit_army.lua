@@ -4,7 +4,7 @@ if CLIENT then
     SWEP.DrawWeaponInfoBox = true
 end
 
-SWEP.PrintName = "Water"
+SWEP.PrintName = "Army Medkit"
 SWEP.Author = "Craft_Pig"
 SWEP.Purpose = 
 [[
@@ -13,8 +13,8 @@ SWEP.Category = "S.T.A.L.K.E.R. 2"
 -- SWEP.Category1 = "EFT"
 -- SWEP.Category2 = "Medkits"
 
-SWEP.ViewModelFOV = 80
-SWEP.ViewModel = "models/weapons/sweps/stalker2/water/v_item_water.mdl"
+SWEP.ViewModelFOV = 65
+SWEP.ViewModel = "models/weapons/sweps/stalker2/medkit/v_item_medkit.mdl"
 SWEP.WorldModel = "models/weapons/sweps/eft/afak/w_meds_afak.mdl"
 SWEP.UseHands = true
 SWEP.DrawCrosshair = false 
@@ -27,7 +27,7 @@ SWEP.SwayScale = 0.15
 SWEP.BobScale = 0.75
 
 SWEP.Secondary.Ammo = "none"
-SWEP.Primary.Ammo = "water"
+SWEP.Primary.Ammo = "medkit_army"
 SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = 1
 SWEP.Primary.Automatic = false
@@ -35,8 +35,8 @@ SWEP.Primary.Automatic = false
 local INI_SEF = false
 local INI_VIVO = false
 local INI_AUX = false
-local ID_WEAPON = "weapon_stalker2_water"
-local ID_PRIMARYAMMO = "water"
+local ID_WEAPON = "weapon_stalker2_medkit_army"
+local ID_PRIMARYAMMO = "medkit_army"
 
 function SWEP:Initialize()
     self:SetHoldType("slam")
@@ -67,6 +67,15 @@ function SWEP:Deploy()
 		owner:SelectWeapon(owner:GetPreviousWeapon())
 	end
 	
+	timer.Simple(0.05, function()
+        if IsValid(self) and IsValid(self.Owner) then
+            local vm = self.Owner:GetViewModel()
+            if IsValid(vm) then
+                vm:SetSkin(1) 
+            end
+        end
+    end)
+	
 	---------- Start Consumable ----------
 	self.Consuming = 1
 	self:InitializeConsumable()
@@ -80,8 +89,14 @@ function SWEP:InitializeConsumable()
 
     self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
 	local SequenceDuration = self:SequenceDuration()
+	
+	timer.Simple(SequenceDuration * 0.3, function() -- Audio.
+        if IsValid(owner) and owner:Alive() then
+			owner:EmitSound("Stalker2.Healing")
+        end
+    end)
 
-    timer.Simple(SequenceDuration * 0.7, function() -- Call item effects.
+    timer.Simple(SequenceDuration * 0.4, function() -- Call item effects.
         if IsValid(owner) and owner:Alive() then
 			self:Heal(owner)
         end
@@ -103,17 +118,16 @@ function SWEP:Heal(owner)
 	if IsValid(owner) and owner:GetActiveWeapon():GetClass() == ID_WEAPON then
 	
 		if INI_SEF == true and SERVER then
-			-- owner:ApplyEffect("Healing", 5, 1, 0.25)
+			owner:ApplyEffect("Healing", 3.1, 1, 0.020)
 		end
 		
 		if INI_AUX == true then
-			AUXPOW:SetPower(owner, math.min(AUXPOW:GetPower(owner) + 0.5, 1));
+			-- AUXPOW:SetPower(owner, math.min(AUXPOW:GetPower(owner) + 0.5, 1));
 		end
 		
 		if INI_VIVO == true then
 		end
 	end
-	owner:EmitSound("Stalker2.Drink")
 	owner:RemoveAmmo(1, ID_PRIMARYAMMO) 
 end
 
