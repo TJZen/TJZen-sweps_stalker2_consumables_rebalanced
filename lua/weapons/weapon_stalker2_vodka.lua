@@ -1,5 +1,5 @@
 if CLIENT then 
-    SWEP.WepSelectIcon = surface.GetTextureID( "vgui/hud/vgui_afak" )
+    SWEP.WepSelectIcon = surface.GetTextureID( "vgui/hud/vgui_stalker2_vodka" )
 	SWEP.BounceWeaponIcon = true 
     SWEP.DrawWeaponInfoBox = true
 end
@@ -13,15 +13,17 @@ SWEP.Category = "S.T.A.L.K.E.R. 2"
 -- SWEP.Category1 = "EFT"
 -- SWEP.Category2 = "Medkits"
 
-SWEP.ViewModelFOV = 70
+SWEP.ViewModelFOV = 60
 SWEP.ViewModel = "models/weapons/sweps/stalker2/vodka/v_item_vodka.mdl"
 SWEP.WorldModel = "models/weapons/sweps/stalker2/vodka/w_item_vodka.mdl"
 SWEP.UseHands = true
 SWEP.DrawCrosshair = false 
 
 SWEP.Spawnable = true
+SWEP.AutoSwitchTo = false
+SWEP.AutoSwitchFrom = false
 SWEP.Slot = 5
-SWEP.SlotPos = 7
+SWEP.SlotPos = 12
 
 SWEP.SwayScale = 0.15
 SWEP.BobScale = 0.75
@@ -107,7 +109,7 @@ function SWEP:Heal(owner)
 		end
 		
 		if INI_AUX == true then
-			AUXPOW:SetPower(owner, math.min(AUXPOW:GetPower(owner) + 0.5, 1));
+			AUXPOW:SetPower(owner, math.min(AUXPOW:GetPower(owner) - 0.5, 1));
 		end
 		
 		if INI_VIVO == true then

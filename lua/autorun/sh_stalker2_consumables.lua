@@ -75,7 +75,15 @@ name = "medkit_army",
 game.AddAmmoType( {
 name = "medkit_scientific",
 } )
-
+game.AddAmmoType( {
+name = "canned",
+} )
+game.AddAmmoType( {
+name = "sausage",
+} )
+game.AddAmmoType( {
+name = "energy",
+} )
 
 --[[
 -----------------------------------------------------------------------------------------------------
@@ -169,7 +177,6 @@ sound.Add( {
     level = 65,
     pitch = {95, 100},
     sound = {
-        "weapons/stalker2/drink/SFX_Consumables_Common_Drink_01.mp3",
 		"weapons/stalker2/drink/SFX_Consumables_Common_Drink_02.mp3",
 		"weapons/stalker2/drink/SFX_Consumables_Common_Drink_03.mp3",
 		"weapons/stalker2/drink/SFX_Consumables_Common_Drink_04.mp3",
@@ -262,5 +269,52 @@ sound.Add( {
     pitch = {95, 100},
     sound = {
         "weapons/stalker2/medkit/SFX_Medkit_Cap_1.ogg",
+    }
+} )
+----------------------------------------------------------------------------------------------------- Canned
+sound.Add( {
+    name = "Stalker2.CannedPrick",
+    channel = CHAN_WEAPON,
+    volume = 1,
+    level = 65,
+    pitch = {95, 100},
+    sound = {
+        "weapons/stalker2/canned/SFX_Canned_Prick_1.ogg",
+		"weapons/stalker2/canned/SFX_Canned_Prick_2.ogg",
+		"weapons/stalker2/canned/SFX_Canned_Prick_3.ogg",
+    }
+} )
+sound.Add( {
+    name = "Stalker2.CannedOpen",
+    channel = CHAN_BODY,
+    volume = 1,
+    level = 65,
+    pitch = {95, 100},
+    sound = {
+        "weapons/stalker2/canned/SFX_Canned_Open.ogg",
+    }
+} )
+sound.Add( {
+    name = "Stalker2.CannedLid",
+    channel = CHAN_BODY,
+    volume = 1,
+    level = 65,
+    pitch = {95, 100},
+    sound = {
+        "weapons/stalker2/canned/SFX_Canned_Lid.ogg",
+    }
+} )
+----------------------------------------------------------------------------------------------------- Sausage
+sound.Add( {
+    name = "Stalker2.Sausage",
+    channel = CHAN_WEAPON,
+    volume = 0.4,
+    level = 65,
+    pitch = {95, 100},
+    sound = {
+        "weapons/stalker2/sausage/SFX_Sausage_1.ogg",
+		"weapons/stalker2/sausage/SFX_Sausage_2.ogg",
+		"weapons/stalker2/sausage/SFX_Sausage_3.ogg",
+		"weapons/stalker2/sausage/SFX_Sausage_4.ogg",
     }
 } )

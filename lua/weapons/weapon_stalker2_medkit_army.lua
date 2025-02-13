@@ -1,5 +1,5 @@
 if CLIENT then 
-    SWEP.WepSelectIcon = surface.GetTextureID( "vgui/hud/vgui_afak" )
+    SWEP.WepSelectIcon = surface.GetTextureID( "vgui/hud/vgui_stalker2_medkitarmy" )
 	SWEP.BounceWeaponIcon = true 
     SWEP.DrawWeaponInfoBox = true
 end
@@ -15,13 +15,15 @@ SWEP.Category = "S.T.A.L.K.E.R. 2"
 
 SWEP.ViewModelFOV = 65
 SWEP.ViewModel = "models/weapons/sweps/stalker2/medkit/v_item_medkit.mdl"
-SWEP.WorldModel = "models/weapons/sweps/eft/afak/w_meds_afak.mdl"
+SWEP.WorldModel = "models/weapons/sweps/stalker2/medkit/w_item_medkit.mdl"
 SWEP.UseHands = true
 SWEP.DrawCrosshair = false 
 
 SWEP.Spawnable = true
+SWEP.AutoSwitchTo = false
+SWEP.AutoSwitchFrom = false
 SWEP.Slot = 5
-SWEP.SlotPos = 7
+SWEP.SlotPos = 8
 
 SWEP.SwayScale = 0.15
 SWEP.BobScale = 0.75
@@ -122,7 +124,7 @@ function SWEP:Heal(owner)
 		end
 		
 		if INI_AUX == true then
-			-- AUXPOW:SetPower(owner, math.min(AUXPOW:GetPower(owner) + 0.5, 1));
+			AUXPOW:SetPower(owner, math.min(AUXPOW:GetPower(owner) + 0.2, 1));
 		end
 		
 		if INI_VIVO == true then
@@ -162,7 +164,7 @@ end
 if CLIENT then -- Worldmodel offset
 	local WorldModel = ClientsideModel(SWEP.WorldModel)
 
-	WorldModel:SetSkin(0)
+	WorldModel:SetSkin(1)
 	WorldModel:SetNoDraw(true)
 
 	function SWEP:DrawWorldModel()

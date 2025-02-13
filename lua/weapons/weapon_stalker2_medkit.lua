@@ -1,5 +1,5 @@
 if CLIENT then 
-    SWEP.WepSelectIcon = surface.GetTextureID( "vgui/hud/vgui_afak" )
+    SWEP.WepSelectIcon = surface.GetTextureID( "vgui/hud/vgui_stalker2_medkit" )
 	SWEP.BounceWeaponIcon = true 
     SWEP.DrawWeaponInfoBox = true
 end
@@ -15,13 +15,15 @@ SWEP.Category = "S.T.A.L.K.E.R. 2"
 
 SWEP.ViewModelFOV = 65
 SWEP.ViewModel = "models/weapons/sweps/stalker2/medkit/v_item_medkit.mdl"
-SWEP.WorldModel = "models/weapons/sweps/eft/afak/w_meds_afak.mdl"
+SWEP.WorldModel = "models/weapons/sweps/stalker2/medkit/w_item_medkit.mdl"
 SWEP.UseHands = true
 SWEP.DrawCrosshair = false 
 
 SWEP.Spawnable = true
+SWEP.AutoSwitchTo = false
+SWEP.AutoSwitchFrom = false
 SWEP.Slot = 5
-SWEP.SlotPos = 7
+SWEP.SlotPos = 8
 
 SWEP.SwayScale = 0.15
 SWEP.BobScale = 0.75
@@ -87,7 +89,7 @@ function SWEP:InitializeConsumable()
         end
     end)
 
-    timer.Simple(SequenceDuration * 0.4, function() -- Call item effects.
+    timer.Simple(SequenceDuration * 0.34, function() -- Call item effects.
         if IsValid(owner) and owner:Alive() then
 			self:Heal(owner)
         end
@@ -120,6 +122,10 @@ function SWEP:Heal(owner)
 		end
 	end
 	owner:RemoveAmmo(1, ID_PRIMARYAMMO) 
+	
+	-- owner:SetNWFloat("SaturationEffectStart", CurTime())
+	-- owner:SetNWFloat("SaturationEffectDuration", 1)
+	-- owner:SetNWFloat("SaturationEffectStrength", 5)
 end
 
 function SWEP:PrimaryAttack()
@@ -150,7 +156,31 @@ function SWEP:CalcView( ply, pos, ang, fov )
     return pos, ang + self.vmcamera, fov
 end
 
-if CLIENT then -- Worldmodel offset
+
+
+if CLIENT then
+	    -- hook.Add("RenderScreenspaceEffects", "Hook_VodkaSaturationBoost", function()
+			-- local ply = LocalPlayer()
+			-- local startTime = ply:GetNWFloat("SaturationEffectStart", 0)
+			-- local duration = ply:GetNWFloat("SaturationEffectDuration", 0)
+			-- local strength = ply:GetNWFloat("SaturationEffectStrength", 0)
+
+			-- if CurTime() < startTime + duration then
+				-- local elapsed = CurTime() - startTime
+				-- local fadeOut = math.Clamp(1 - (elapsed / duration), 0, 1)
+				-- local saturation = strength * fadeOut
+
+				-- DrawColorModify({
+					-- ["$pp_colour_contrast"] = 1,
+					-- ["$pp_colour_colour"] = 1 + saturation,
+					-- ["$pp_colour_brightness"] = 0,
+					-- ["$pp_colour_mulr"] = 0 + saturation,
+					-- ["$pp_colour_mulg"] = 0 + saturation,
+					-- ["$pp_colour_mulb"] = 0 + saturation
+				-- })
+			-- end
+		-- end)
+	
 	local WorldModel = ClientsideModel(SWEP.WorldModel)
 
 	WorldModel:SetSkin(0)

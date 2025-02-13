@@ -1,5 +1,5 @@
 if CLIENT then 
-    SWEP.WepSelectIcon = surface.GetTextureID( "vgui/hud/vgui_afak" )
+    SWEP.WepSelectIcon = surface.GetTextureID( "vgui/hud/vgui_stalker2_bread" )
 	SWEP.BounceWeaponIcon = true 
     SWEP.DrawWeaponInfoBox = true
 end
@@ -15,13 +15,15 @@ SWEP.Category = "S.T.A.L.K.E.R. 2"
 
 SWEP.ViewModelFOV = 70
 SWEP.ViewModel = "models/weapons/sweps/stalker2/bread/v_item_bread.mdl"
-SWEP.WorldModel = "models/weapons/sweps/eft/afak/w_meds_afak.mdl"
+SWEP.WorldModel = "models/weapons/sweps/stalker2/bread/w_item_bread.mdl"
 SWEP.UseHands = true
 SWEP.DrawCrosshair = false 
 
 SWEP.Spawnable = true
+SWEP.AutoSwitchTo = false
+SWEP.AutoSwitchFrom = false
 SWEP.Slot = 5
-SWEP.SlotPos = 7
+SWEP.SlotPos = 11
 
 SWEP.SwayScale = 0.15
 SWEP.BobScale = 0.75
