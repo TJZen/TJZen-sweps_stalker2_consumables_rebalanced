@@ -15,7 +15,7 @@ SWEP.Category = "S.T.A.L.K.E.R. 2"
 
 SWEP.ViewModelFOV = 70
 SWEP.ViewModel = "models/weapons/sweps/stalker2/water/v_item_water.mdl"
-SWEP.WorldModel = "models/weapons/sweps/eft/afak/w_meds_afak.mdl"
+SWEP.WorldModel = "models/weapons/sweps/stalker2/water/w_item_water.mdl"
 SWEP.UseHands = true
 SWEP.DrawCrosshair = false 
 

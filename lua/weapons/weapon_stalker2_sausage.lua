@@ -15,7 +15,7 @@ SWEP.Category = "S.T.A.L.K.E.R. 2"
 
 SWEP.ViewModelFOV = 55
 SWEP.ViewModel = "models/weapons/sweps/stalker2/sausage/v_item_sausage.mdl"
-SWEP.WorldModel = "models/weapons/sweps/stalker2/bread/w_item_bread.mdl"
+SWEP.WorldModel = "models/weapons/sweps/stalker2/sausage/w_item_sausage.mdl"
 SWEP.UseHands = true
 SWEP.DrawCrosshair = false 
 
@@ -162,8 +162,8 @@ if CLIENT then -- Worldmodel offset
 		local owner = self:GetOwner()
 
 		if (IsValid(owner)) then
-			local offsetVec = Vector(3, -4, 3)
-			local offsetAng = Angle(-0, -0, -180)
+			local offsetVec = Vector(3, -3, 1)
+			local offsetAng = Angle(-0, -0, -90)
 			
 			local boneid = owner:LookupBone("ValveBiped.Bip01_R_Hand") -- Right Hand
 			if !boneid then return end

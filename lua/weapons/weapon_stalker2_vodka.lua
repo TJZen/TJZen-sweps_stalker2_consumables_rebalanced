@@ -183,7 +183,7 @@ if CLIENT then
 		local owner = self:GetOwner()
 
 		if (IsValid(owner)) then
-			local offsetVec = Vector(3, -4, 3)
+			local offsetVec = Vector(3, -1, 1)
 			local offsetAng = Angle(-0, -0, -180)
 			
 			local boneid = owner:LookupBone("ValveBiped.Bip01_R_Hand") -- Right Hand
