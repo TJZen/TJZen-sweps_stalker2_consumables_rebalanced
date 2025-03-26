@@ -2,7 +2,7 @@
 
  Changes 
  
- Vokda gives 20% Endurance and Heals 7 HP
+ Vodka gives 20% Endurance and Heals 7 HP
  
  Water Heals 15 HP
  
