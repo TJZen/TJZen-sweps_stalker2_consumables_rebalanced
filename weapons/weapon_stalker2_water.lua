@@ -8,7 +8,8 @@ SWEP.PrintName = "Water"
 SWEP.Author = "Craft_Pig"
 SWEP.Purpose = 
 [[
-Heals 15 HP over 5s
+Heals 15 HP Over 5s
+Gives 15 Armor Over 5s
 ]]
 SWEP.Category = "S.T.A.L.K.E.R. 2"
 -- SWEP.Category1 = "EFT"
@@ -107,6 +108,7 @@ function SWEP:Heal(owner)
 	
 		if INI_SEF == true and SERVER then
 			 owner:ApplyEffect("Healing", 5, 1, 0.32)
+			 owner:ApplyEffect("Energized", 5, 1, 0.32)
 		end
 		
 		if INI_AUX == true then
