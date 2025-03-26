@@ -4,7 +4,7 @@
  
  Vodka gives 20% Endurance and Heals 7 HP
  
- Water Heals 15 HP
+ Water Heals 15 HP and gives 15 Armor 
  
  Energy Drink Heals 10 HP and gives 20 Haste
  
